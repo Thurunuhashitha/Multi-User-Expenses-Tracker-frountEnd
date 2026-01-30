@@ -1,0 +1,26 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.form {
+    border: 2px solid blue;
+    padding: 40px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Fixed box-shadow */
+    border-style: ridge;
+    background-color: beige;
+}
+.button.button {
+    background-color: rgb(70, 97, 206);  
+    margin-top: 20px;
+    border: 1px solid blue;
+    color: aliceblue;
+    border-radius: 10px;
+}
+ 
+.button.button:hover{
+    background-color: blue;
+}

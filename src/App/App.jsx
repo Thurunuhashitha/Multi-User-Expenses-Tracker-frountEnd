@@ -1,10 +1,11 @@
+import Login from '../Pages/Login/Login'
 import './App.css'
 
 function App() { 
 
   return (
     <>
-       <h1>App react</h1>
+       <Login/>
     </>
   )
 }
