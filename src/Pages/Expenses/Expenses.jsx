@@ -11,6 +11,8 @@ export default function Expenses() {
     const [activeView, setActiveView] = useState('') // create | all | search
     const [searchDate, setSearchDate] = useState('')
     const [hasSearched, setHasSearched] = useState(false)
+    const [deleteId, setDeleteId] = useState('')
+
 
     const [billImg, setBillImg] = useState(null)
 
@@ -19,6 +21,15 @@ export default function Expenses() {
         amount: '',
         date: ''
     })
+
+    // const [updateId, setUpdateId] = useState('')
+    // const [updateData, setUpdateData] = useState({
+    //     reason: '',
+    //     amount: '',
+    //     date: ''
+    // })
+    // const [updateBillImg, setUpdateBillImg] = useState(null)
+
 
     // ================= HANDLE INPUT =================
     const handleChange = (e) => {
@@ -127,7 +138,82 @@ export default function Expenses() {
             setExpenses(filtered)
             setActiveView('search')
         }
+    } 
+    // ================= UPDATE EXPENSE =================
+    // const updateExpense = async () => {
+    //     if (!updateId) {
+    //         alert('Please enter Expense ID')
+    //         return
+    //     }
+
+    //     try {
+    //         const data = new FormData()
+    //         if (updateData.reason) data.append('reason', updateData.reason)
+    //         if (updateData.amount) data.append('amount', updateData.amount)
+    //         if (updateData.date) data.append('date', updateData.date)
+    //         if (updateBillImg) data.append('bill_img', updateBillImg)
+
+    //         await axios.put(
+    //             `http://localhost:3000/api/expenses/update/${updateId}`,
+    //             data,
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${localStorage.getItem('token')}`,
+    //                     'Content-Type': 'multipart/form-data'
+    //                 }
+    //             }
+    //         )
+
+    //         alert('Expense updated successfully')
+
+    //         // clear form
+    //         setUpdateId('')
+    //         setUpdateData({ reason: '', amount: '', date: '' })
+    //         setUpdateBillImg(null)
+
+    //         // refresh all expenses
+    //         getAllExpenses()
+
+    //     } catch (err) {
+    //         alert(err.response?.data?.error || 'Failed to update expense')
+    //     }
+    // }
+
+
+    // ================= Delete =================
+    const deleteExpenseById = async () => {
+        if (!deleteId) {
+            alert('Please enter Expense ID')
+            return
+        }
+
+        if (!window.confirm(`Delete expense ID ${deleteId}?`)) return
+
+        try {
+            await axios.delete(
+                `http://localhost:3000/api/expenses/delete/${deleteId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                }
+            )
+
+            alert('Expense deleted successfully')
+
+            // clear input
+            setDeleteId('')
+
+            // refresh list
+            getAllExpenses()
+
+        } catch (err) {
+            alert(err.response?.data?.error || 'Expense not found')
+        }
     }
+
+
+
 
     // ================= UI =================
     return (
@@ -136,7 +222,28 @@ export default function Expenses() {
             {/* NAVBAR */}
             <Box className='nav' sx={{ display: 'flex', gap: 2, padding: 2, justifyContent: 'center' }}>
                 <Button text="Create Expense" onClick={() => setActiveView('create')} />
-                <Button text="Show All Expenses" onClick={getAllExpenses} />
+                <Button text="Show All Expenses" onClick={getAllExpenses} /> 
+                <Button
+                    text="Delete Expenses"
+                    onClick={() => {
+                        setActiveView('delete')
+                        setDeleteId('')
+                        setExpenses([])
+                    }}
+                />
+
+                {/* <Button
+                    text="Update Expenses"
+                    onClick={() => {
+                        setActiveView('update')
+                        setUpdateId('')
+                        setUpdateData({ reason: '', amount: '', date: '' })
+                        setUpdateBillImg(null)
+                        setExpenses([])
+                    }}
+                /> */}
+
+
                 <Button
                     text="Search by Date"
                     onClick={() => {
@@ -218,6 +325,81 @@ export default function Expenses() {
                     </Box>
                 )}
 
+                {/* DELETE BY ID */}
+                {activeView === 'delete' && (
+                    <Box className="expense-form">
+                        <h2>Delete Expense by ID</h2>
+
+                        <Input
+                            label="Expense ID"
+                            type="number"
+                            value={deleteId}
+                            onChange={(e) => setDeleteId(e.target.value)}
+                        />
+
+                        <Button text="Delete Expense" onClick={deleteExpenseById} />
+
+                        <hr />
+                    </Box>
+                )}
+
+                {/* UPDATE EXPENSE
+                {activeView === 'update' && (
+                    <Box className="expense-form">
+                        <h2>Update Expense by ID</h2>
+
+                        <Input
+                            label="Expense ID"
+                            type="number"
+                            value={updateId}
+                            onChange={(e) => setUpdateId(e.target.value)}
+                        />
+
+                        <Input
+                            label="Reason"
+                            name="reason"
+                            value={updateData.reason}
+                            onChange={handleUpdateChange}  // ✅ Add this
+                        />
+
+                        <Input
+                            label="Amount"
+                            type="number"
+                            name="amount"
+                            value={updateData.amount}
+                            onChange={handleUpdateChange}  // ✅ Add this
+                        />
+
+                        <Input
+                            label="Date"
+                            type="date"
+                            name="date"
+                            value={updateData.date}
+                            onChange={handleUpdateChange}  // ✅ Add this
+                        />
+
+                        <Input
+                            type="file"
+                            accept="image/*"
+                        />
+
+                        {updateBillImg && (
+                            <img
+                                src={URL.createObjectURL(updateBillImg)}
+                                alt="Bill Preview"
+                                style={{ width: '150px', marginTop: '10px' }}
+                            />
+                        )}
+
+                        <Button text="Update Expense" onClick={updateExpense} />
+
+                        <hr />
+                    </Box>
+                )}
+
+ */}
+
+
                 {/* ALL */}
                 {activeView === 'all' && (
                     <Box className="expense-list">
@@ -228,6 +410,7 @@ export default function Expenses() {
                         ) : (
                             expenses.map((exp) => (
                                 <Box key={exp.expense_id} className="expense-item">
+                                    <p><b>ID:</b> {exp.expense_id}</p>
                                     <p><b>Reason:</b> {exp.reason}</p>
                                     <p><b>Amount:</b> Rs. {exp.amount}</p>
                                     <p><b>Date:</b> {exp.date}</p>
