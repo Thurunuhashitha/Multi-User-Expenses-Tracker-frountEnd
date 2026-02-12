@@ -47,7 +47,7 @@ export default function Expenses() {
     const getAllExpenses = async () => {
         try {
             const res = await axios.get(
-                'https://localhost:3000/api/expenses/all',
+                'https://api.thurunu.me/api/expenses/all',
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -74,7 +74,7 @@ export default function Expenses() {
             }
 
             await axios.post(
-                'https://localhost:3000/api/expenses/add',
+                'https://api.thurunu.me/api/expenses/add',
                 data,
                 {
                     headers: {
@@ -104,7 +104,7 @@ export default function Expenses() {
 
         try {
             const res = await axios.get(
-                `https://localhost:3000/api/expenses/search?date=${searchDate}`,
+                `https://api.thurunu.me/api/expenses/search?date=${searchDate}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -122,7 +122,7 @@ export default function Expenses() {
 
         } catch {
             const allExpenses = await axios.get(
-                'https://localhost:3000/api/expenses/all',
+                'https://api.thurunu.me/api/expenses/all',
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -191,7 +191,7 @@ export default function Expenses() {
 
         try {
             await axios.delete(
-                `https://localhost:3000/api/expenses/delete/${deleteId}`,
+                `https://api.thurunu.me/api/expenses/delete/${deleteId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -307,7 +307,7 @@ export default function Expenses() {
 
                                         {exp.bill_img && (
                                             <img
-                                                src={`https://localhost:3000/uploads/${exp.bill_img}`}
+                                                src={`https://api.thurunu.me/uploads/${exp.bill_img}`}
                                                 alt="Bill"
                                                 style={{ width: '120px', marginTop: '5px' }}
                                             />
@@ -417,7 +417,7 @@ export default function Expenses() {
 
                                     {exp.bill_img && (
                                         <img
-                                            src={`https://localhost:3000/uploads/${exp.bill_img}`}
+                                            src={`https://api.thurunu.me/uploads/${exp.bill_img}`}
                                             alt="Bill"
                                             style={{ width: '120px', marginTop: '5px' }}
                                         />

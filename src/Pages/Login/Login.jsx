@@ -25,7 +25,7 @@ export default function Login() {
     const handleLogin = async () => {
         try {
             const res = await axios.post(
-                'https://localhost:3000/api/auth/login',
+                'https://api.thurunu.me/api/auth/login',
                 formData
             )
 

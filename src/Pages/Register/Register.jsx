@@ -26,7 +26,7 @@ export default function Register() {
     const handleRegister = async () => {
         try {
             const res = await axios.post(
-                'https://localhost:3000/api/auth/register',
+                'https://api.thurunu.me/api/auth/register',
                 formData
             )
 
