@@ -26,7 +26,7 @@ export default function Register() {
     const handleRegister = async () => {
         try {
             const res = await axios.post(
-                'http://localhost:3000/api/auth/register',
+                'https://localhost:3000/api/auth/register',
                 formData
             )
 
