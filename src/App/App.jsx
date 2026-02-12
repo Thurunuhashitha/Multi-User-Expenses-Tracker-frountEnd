@@ -10,6 +10,9 @@ function App() {
   return (
     <div>  
       <Routes>   
+        {/* Default route */}
+        <Route path="/" element={<Navigate to="/login" />} />
+        
         <Route path='/login' element = {<Login/>} />         {/* url ekee "/login" meeka gahuwoth ookata yanawa */}
         <Route path='/register' element = {<Register/>} /> 
         <Route path='/expenses' element = {<Expenses/>} /> 
